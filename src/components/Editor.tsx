@@ -44,7 +44,7 @@ const Editor = () => {
                         })
                     }
                 >
-                    Create Entry
+                    Create Entry 
                 </Button>
             </div>
         </Box>

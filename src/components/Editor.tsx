@@ -1,22 +1,29 @@
 import { Box, Button, TextField } from '@mui/material'
-import { YoutubeItem } from '../types/youtubeItem'
 import { useEffect, useState } from 'react'
+import { YoutubeItem } from '../types/youtubeItem'
 
 const blackList = ['demo', 'test']
-const Editor = () => {
+
+interface editorProps {
+    onSubmit: (submittedEntry: YoutubeItem) => void
+}
+
+const Editor: React.FC<editorProps> = ({ onSubmit }) => {
     const [videoName, setVideoName] = useState('')
     const [videoUrl, setVideoUrl] = useState('')
 
-    const handleSubmit = () => {
-        console.log(videoName, videoUrl)
-    }
-
-    useEffect(() => {
+    /*useEffect(() => {
         if (!videoName) return
         if (blackList.some((e) => videoName == e)) {
             setVideoName('')
         }
-    }, [videoName])
+    }, [videoName])*/
+
+    const handleSubmit = () => {
+        onSubmit({ videoName, videoUrl })
+        setVideoName('')
+        setVideoUrl('')
+    }
 
     return (
         <Box

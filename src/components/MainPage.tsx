@@ -15,17 +15,23 @@ import { Delete, Edit, Folder } from '@mui/icons-material'
 
 const MainPage = () => {
     const [list, updateList] = useState<YoutubeItem[]>([])
-    console.log(list)
+    const [entryToUpdate, setEntryToUpdate] = useState<YoutubeItem>()
 
     const handleSave = (newEntry: YoutubeItem) => {
-        const newList = list.concat(newEntry)
-        updateList(newList)
+        if (!entryToUpdate) {
+            const newList = list.concat(newEntry)
+            updateList(newList)
+        } else {
+            const newList = list.map((entry) => {
+                return entry.id == newEntry.id ? newEntry : entry
+            })
+            updateList(newList)
+            setEntryToUpdate(undefined)
+        }
     }
 
     const handleDelete = (entryToRemove: YoutubeItem) => {
-        const newList = list.filter(
-            (entry) => entryToRemove.videoName != entry.videoName
-        )
+        const newList = list.filter((entry) => entryToRemove.id !== entry.id)
         updateList(newList)
     }
 
@@ -41,18 +47,24 @@ const MainPage = () => {
             noValidate
             autoComplete="off"
         >
-            <Editor onSubmit={handleSave} />
+            <Editor entryToUpdate={entryToUpdate} onSubmit={handleSave} />
             <List dense>
                 {list.map((listEntry) => {
                     return (
-                        <ListItem>
+                        <ListItem key={listEntry.id}>
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete">
-                                    <Delete
-                                        onClick={() => handleDelete(listEntry)}
-                                    />
+                                <IconButton
+                                    edge="end"
+                                    aria-label="delete"
+                                    onClick={() => handleDelete(listEntry)}
+                                >
+                                    <Delete />
                                 </IconButton>
-                                <IconButton edge="end" aria-label="delete">
+                                <IconButton
+                                    edge="end"
+                                    aria-label="delete"
+                                    onClick={() => setEntryToUpdate(listEntry)}
+                                >
                                     <Edit />
                                 </IconButton>
                             </ListItemSecondaryAction>

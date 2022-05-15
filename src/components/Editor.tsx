@@ -1,26 +1,30 @@
 import { Box, Button, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { YoutubeItem } from '../types/youtubeItem'
+import { v4 as uuidv4 } from 'uuid'
 
 const blackList = ['demo', 'test']
 
 interface editorProps {
     onSubmit: (submittedEntry: YoutubeItem) => void
+    entryToUpdate?: YoutubeItem
 }
 
-const Editor: React.FC<editorProps> = ({ onSubmit }) => {
+const Editor: React.FC<editorProps> = ({ onSubmit, entryToUpdate }) => {
     const [videoName, setVideoName] = useState('')
     const [videoUrl, setVideoUrl] = useState('')
 
-    /*useEffect(() => {
-        if (!videoName) return
-        if (blackList.some((e) => videoName == e)) {
-            setVideoName('')
-        }
-    }, [videoName])*/
+    useEffect(() => {
+        if(!entryToUpdate) return
+        setVideoName(entryToUpdate.videoName)
+        setVideoUrl(entryToUpdate.videoUrl)
+    }, [entryToUpdate])
 
     const handleSubmit = () => {
-        onSubmit({ videoName, videoUrl })
+        const payload: YoutubeItem = entryToUpdate
+            ? { videoName, videoUrl, id: entryToUpdate.id }
+            : { videoName, videoUrl, id: uuidv4() }
+        onSubmit(payload)
         setVideoName('')
         setVideoUrl('')
     }
@@ -56,7 +60,7 @@ const Editor: React.FC<editorProps> = ({ onSubmit }) => {
             </div>
             <div>
                 <Button variant="contained" onClick={handleSubmit}>
-                    Create Entry
+                    {!entryToUpdate ? 'Create Entry' : 'Update Entry'}
                 </Button>
             </div>
         </Box>

@@ -12,6 +12,7 @@ import {
     ListItemSecondaryAction,
 } from '@mui/material'
 import { Delete, Edit, Folder } from '@mui/icons-material'
+import YoutubeList from "./YoutubeList";
 
 const MainPage = () => {
     const [list, updateList] = useState<YoutubeItem[]>([])
@@ -48,37 +49,10 @@ const MainPage = () => {
             autoComplete="off"
         >
             <Editor entryToUpdate={entryToUpdate} onSubmit={handleSave} />
-            <List dense>
-                {list.map((listEntry) => {
-                    return (
-                        <ListItem key={listEntry.id}>
-                            <ListItemSecondaryAction>
-                                <IconButton
-                                    edge="end"
-                                    aria-label="delete"
-                                    onClick={() => handleDelete(listEntry)}
-                                >
-                                    <Delete />
-                                </IconButton>
-                                <IconButton
-                                    edge="end"
-                                    aria-label="delete"
-                                    onClick={() => setEntryToUpdate(listEntry)}
-                                >
-                                    <Edit />
-                                </IconButton>
-                            </ListItemSecondaryAction>
+            <YoutubeList list={list} onDelete={handleDelete} onUpdate={setEntryToUpdate}/>
 
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <Folder />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={listEntry.videoName} />
-                        </ListItem>
-                    )
-                })}
-            </List>
+
+
         </Box>
     )
 }

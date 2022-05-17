@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from '@mui/material'
-import { useEffect, useState } from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import { YoutubeItem } from '../types/youtubeItem'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -28,6 +28,12 @@ const Editor: React.FC<editorProps> = ({ onSubmit, entryToUpdate }) => {
         setVideoName('')
         setVideoUrl('')
     }
+
+    const reverseUrl = useMemo(() => {
+        if(!videoUrl) return ''
+        // @ts-ignore
+        return [...videoUrl].reverse().join()
+    },[videoUrl])
 
     return (
         <Box
@@ -61,6 +67,12 @@ const Editor: React.FC<editorProps> = ({ onSubmit, entryToUpdate }) => {
             <div>
                 <Button variant="contained" onClick={handleSubmit}>
                     {!entryToUpdate ? 'Create Entry' : 'Update Entry'}
+                </Button>
+            </div>
+
+            <div>
+                <Button variant="contained">
+                    {reverseUrl}
                 </Button>
             </div>
         </Box>

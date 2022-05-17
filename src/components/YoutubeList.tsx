@@ -9,7 +9,7 @@ import {
     ListItemText,
 } from '@mui/material'
 import { Delete, Edit, Folder } from '@mui/icons-material'
-import { useState } from 'react'
+import {useCallback, useState} from 'react'
 import YoutubeListItem from './YoutubeListItem'
 
 interface youtubeListProps {
@@ -23,6 +23,10 @@ const YoutubeList: React.FC<youtubeListProps> = ({
     onDelete,
     onUpdate,
 }) => {
+
+    const onUpdatePastThroughMemorized = useCallback((item: YoutubeItem) => {
+        onUpdate(item)
+    },[onUpdate])
     return (
         <List dense>
             {list.map((listEntry) => {
@@ -30,7 +34,7 @@ const YoutubeList: React.FC<youtubeListProps> = ({
                     <YoutubeListItem
                         listItem={listEntry}
                         onDelete={onDelete}
-                        onUpdate={onUpdate}
+                        onUpdate={onUpdatePastThroughMemorized}
                     />
                 )
             })}

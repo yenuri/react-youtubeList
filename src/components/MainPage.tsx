@@ -41,8 +41,9 @@ const MainPage = () => {
             component="form"
             sx={{
                 '& > :not(style)': { m: 1, width: '25ch' },
-                border: '1 px solid blue',
-                width: '300 px',
+                border: '1px solid red',
+                margin: '0 auto',
+                width: '300px',
                 textAlign: 'center',
             }}
             noValidate

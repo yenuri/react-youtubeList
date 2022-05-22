@@ -8,33 +8,40 @@ import {
     ListItemText,
 } from '@mui/material'
 import { Delete, Edit, Folder } from '@mui/icons-material'
-import {getThumbnail} from "../types/utils";
+import { getThumbnail } from '../types/utils'
+import { Dispatch } from 'react'
+import { listActionTypes } from '../store/reducer'
 
 interface itemProps {
     listItem: YoutubeItem
-    onDelete: (deletePayload: YoutubeItem) => void
-    onUpdate: (updatePayload: YoutubeItem) => void
+    dispatch: Dispatch<any>
 }
 
-const YoutubeListItem: React.FC<itemProps> = ({
-    listItem,
-    onDelete,
-    onUpdate,
-}) => {
+const YoutubeListItem: React.FC<itemProps> = ({ listItem, dispatch }) => {
     return (
         <ListItem key={listItem.id}>
             <ListItemSecondaryAction>
                 <IconButton
                     edge="end"
                     aria-label="delete"
-                    onClick={() => onDelete(listItem)}
+                    onClick={() =>
+                        dispatch({
+                            type: listActionTypes.delete,
+                            payload: { item: listItem },
+                        })
+                    }
                 >
                     <Delete />
                 </IconButton>
                 <IconButton
                     edge="end"
                     aria-label="delete"
-                    onClick={() => onUpdate(listItem)}
+                    onClick={() =>
+                        dispatch({
+                            type: listActionTypes.startEdition,
+                            payload: { item: listItem },
+                        })
+                    }
                 >
                     <Edit />
                 </IconButton>

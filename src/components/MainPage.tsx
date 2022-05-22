@@ -1,5 +1,5 @@
 import Editor from './Editor'
-import { useState } from 'react'
+import { useReducer, useRef, useState } from 'react'
 import { YoutubeItem } from '../types/youtubeItem'
 import {
     IconButton,
@@ -12,29 +12,12 @@ import {
     ListItemSecondaryAction,
 } from '@mui/material'
 import { Delete, Edit, Folder } from '@mui/icons-material'
-import YoutubeList from "./YoutubeList";
+import YoutubeList from './YoutubeList'
+import { listInitialState, listReducer } from '../store/reducer'
 
 const MainPage = () => {
-    const [list, updateList] = useState<YoutubeItem[]>([])
-    const [entryToUpdate, setEntryToUpdate] = useState<YoutubeItem>()
-
-    const handleSave = (newEntry: YoutubeItem) => {
-        if (!entryToUpdate) {
-            const newList = list.concat(newEntry)
-            updateList(newList)
-        } else {
-            const newList = list.map((entry) => {
-                return entry.id == newEntry.id ? newEntry : entry
-            })
-            updateList(newList)
-            setEntryToUpdate(undefined)
-        }
-    }
-
-    const handleDelete = (entryToRemove: YoutubeItem) => {
-        const newList = list.filter((entry) => entryToRemove.id !== entry.id)
-        updateList(newList)
-    }
+    const [state, dispatch] = useReducer(listReducer, listInitialState)
+    const { list, entryToUpdate } = state
 
     return (
         <Box
@@ -49,11 +32,8 @@ const MainPage = () => {
             noValidate
             autoComplete="off"
         >
-            <Editor entryToUpdate={entryToUpdate} onSubmit={handleSave} />
-            <YoutubeList list={list} onDelete={handleDelete} onUpdate={setEntryToUpdate}/>
-
-
-
+            <Editor entryToUpdate={entryToUpdate} dispatch={dispatch} />
+            <YoutubeList list={list} dispatch={dispatch} />
         </Box>
     )
 }

@@ -9,33 +9,20 @@ import {
     ListItemText,
 } from '@mui/material'
 import { Delete, Edit, Folder } from '@mui/icons-material'
-import {useCallback, useState} from 'react'
+import { Dispatch, useCallback, useState } from 'react'
 import YoutubeListItem from './YoutubeListItem'
 
 interface youtubeListProps {
     list: YoutubeItem[]
-    onDelete: (deletePayload: YoutubeItem) => void
-    onUpdate: (updatePayload: YoutubeItem) => void
+    dispatch: Dispatch<any>
 }
 
-const YoutubeList: React.FC<youtubeListProps> = ({
-    list,
-    onDelete,
-    onUpdate,
-}) => {
-
-    const onUpdatePastThroughMemorized = useCallback((item: YoutubeItem) => {
-        onUpdate(item)
-    },[onUpdate])
+const YoutubeList: React.FC<youtubeListProps> = ({ list, dispatch }) => {
     return (
         <List dense>
             {list.map((listEntry) => {
                 return (
-                    <YoutubeListItem
-                        listItem={listEntry}
-                        onDelete={onDelete}
-                        onUpdate={onUpdatePastThroughMemorized}
-                    />
+                    <YoutubeListItem listItem={listEntry} dispatch={dispatch} />
                 )
             })}
         </List>

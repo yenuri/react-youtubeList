@@ -9,15 +9,15 @@ import {
 } from '@mui/material'
 import { Delete, Edit, Folder } from '@mui/icons-material'
 import { getThumbnail } from '../types/utils'
-import { Dispatch } from 'react'
 import { listActionTypes } from '../store/reducer'
+import { useList } from './MainPage'
 
 interface itemProps {
     listItem: YoutubeItem
-    dispatch: Dispatch<any>
 }
 
-const YoutubeListItem: React.FC<itemProps> = ({ listItem, dispatch }) => {
+const YoutubeListItem: React.FC<itemProps> = ({ listItem }) => {
+    const [, dispatch] = useList()
     return (
         <ListItem key={listItem.id}>
             <ListItemSecondaryAction>

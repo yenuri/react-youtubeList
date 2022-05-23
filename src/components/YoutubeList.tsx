@@ -1,29 +1,15 @@
-import { YoutubeItem } from '../types/youtubeItem'
-import {
-    Avatar,
-    IconButton,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemSecondaryAction,
-    ListItemText,
-} from '@mui/material'
-import { Delete, Edit, Folder } from '@mui/icons-material'
-import { Dispatch, useCallback, useState } from 'react'
+import { List } from '@mui/material'
 import YoutubeListItem from './YoutubeListItem'
+import { useList } from './MainPage'
 
-interface youtubeListProps {
-    list: YoutubeItem[]
-    dispatch: Dispatch<any>
-}
+const YoutubeList = () => {
+    const [state] = useList()
+    const { list } = state
 
-const YoutubeList: React.FC<youtubeListProps> = ({ list, dispatch }) => {
     return (
         <List dense>
-            {list.map((listEntry) => {
-                return (
-                    <YoutubeListItem listItem={listEntry} dispatch={dispatch} />
-                )
+            {list.map((listEntry: any) => {
+                return <YoutubeListItem listItem={listEntry} />
             })}
         </List>
     )

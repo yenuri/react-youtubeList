@@ -1,17 +1,13 @@
 import { Box, Button, TextField } from '@mui/material'
-import { Dispatch, useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { YoutubeItem } from '../types/youtubeItem'
 import { v4 as uuidv4 } from 'uuid'
 import { listActionTypes } from '../store/reducer'
+import { useList } from './MainPage'
 
-const blackList = ['demo', 'test']
-
-interface editorProps {
-    dispatch: Dispatch<any>
-    entryToUpdate?: YoutubeItem
-}
-
-const Editor: React.FC<editorProps> = ({ dispatch, entryToUpdate }) => {
+const Editor = () => {
+    const [state, dispatch] = useList()
+    const { entryToUpdate } = state
     const [videoName, setVideoName] = useState('')
     const [videoUrl, setVideoUrl] = useState('')
 

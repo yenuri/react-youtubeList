@@ -35,6 +35,7 @@ export const listReducer = (state: any, action: Action) => {
                 list: state.list.map((entry: any) => {
                     return entry.id == payload.item.id ? payload.item : entry
                 }),
+                entryToUpdate: undefined,
             }
         }
 
